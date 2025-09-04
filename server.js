@@ -1,12 +1,12 @@
 import express from "express"
 import dotenv from "dotenv"
-dotenv.config()
-// import connectToDb from "./config/connectToDB.js"
+import connectToDb from "./config/connectToDB.js"
 connectToDb()
+dotenv.config()
 
 
 import authRouter from "./routers/authRouter.js"
-import connectToDb from "./config/connectToDB.js"
+import errorHandler from "./middlewares/errorHandler.js"
 
 const app = express()
 app.use(express.json())
@@ -24,4 +24,6 @@ app.get("/api/v1",(req,res)=>{
 
 
 app.use("/api/v1/users", authRouter)
-//api/v1/auth
+
+app.use("/{*any}", errorHandler)
+

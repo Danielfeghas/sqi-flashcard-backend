@@ -1,12 +1,22 @@
 import userModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
-// import jwt from "jsonwebtoken"
+
 
 // Signup
 
-const handleSignUpHandler = async (req, res) => {
-        const {password} = req.body
+const handleSignUpHandler = async (req, res,next) => {
+        const {password, confirmPassword} = req.body
+
+        //check if password match
+
+        if (password !== confirmPassword) {
+            return res.status(400).json({
+                status: "error",
+                message: "Passwords do not match"
+            })
+        }
+
     try {
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
@@ -22,7 +32,7 @@ const handleSignUpHandler = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 status: "error",
-                message: "user not created"
+                message: "Unable to create user"
             })
         }
 
@@ -35,12 +45,12 @@ const handleSignUpHandler = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        // next (error)
+        next (error)
         
     }
 }
 
-export const handleLoginHandler = async (req, res) => {
+export const handleLoginHandler = async (req, res,next) => {
     const {password, email} = req.body
     try {
         const user = await userModel.findOne({email}).select("+password")
@@ -69,6 +79,7 @@ export const handleLoginHandler = async (req, res) => {
         })
     } catch (error) {
         console.log(error);
+        next(error)
         
     }
 }

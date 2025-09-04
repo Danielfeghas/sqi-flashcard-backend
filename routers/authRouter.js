@@ -1,10 +1,11 @@
-import express from "express"
-const authRouter = express.Router()
-// import userModel from "../models/userModel"
+// import express from "express"
+import { Router } from "express"
+const authRouter = Router()
+
 import handleSignUpHandler, { handleLoginHandler } from "../controllers/authController.js"
 
 
-authRouter.post("/",handleSignUpHandler)
+authRouter.post("/signup",handleSignUpHandler)
 authRouter.post("/login",handleLoginHandler)
 
 

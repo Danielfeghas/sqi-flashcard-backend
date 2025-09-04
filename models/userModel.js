@@ -1,28 +1,35 @@
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
+import {model, Schema } from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: [true, "Name is required"],
+        
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+        required:[true, "Email is required"],
+        unique: [true, "email already exists"]
     },
     password: {
         type : String,
-        required: true,
-        minlength: 6
+        required: [true,"Password is required"],
+        minlength: [6, "password must not be less than 6 characters"]
     },
     department : {
         type: String,
+        enum: ["Software engineering", "Data science", "Graphic design", "UI/UX", "Cyber Security", "Data analysis"]
     },
     level: {
         type: String
+    },
+    isVerified: {
+        type: Boolean,
+        default:false
     }
 })
 
-const userModel = mongoose.model("users", userSchema)
+const userModel = model("users", userSchema)
 
 export default userModel
