@@ -68,7 +68,7 @@ export const handleLoginHandler = async (req, res,next) => {
             })
         }
 
-        const token = jwt.sign({userId: user.id, email: user.email},process.env.JWT_SECRET,{expiresIn: process.env.JWT_SECRET_EXP})
+        const token = jwt.sign({userId: user._id, email: user.email},process.env.JWT_SECRET,{expiresIn: process.env.JWT_SECRET_EXP})
 
         return res.status(200).json({
             status: "success",

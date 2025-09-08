@@ -19,6 +19,7 @@ const userSchema = new Schema({
     },
     department : {
         type: String,
+        default: "Software engineering",
         enum: ["Software engineering", "Data science", "Graphic design", "UI/UX", "Cyber Security", "Data analysis"]
     },
     level: {
